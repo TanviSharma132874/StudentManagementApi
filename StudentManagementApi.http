@@ -1,0 +1,71 @@
+@host = https://localhost:7080
+
+### 1. Get all students
+GET {{host}}/api/students
+Accept: application/json
+
+### 2. Search by name or enrollment number
+GET {{host}}/api/students?search=aarav
+
+### 3. Filter by department
+GET {{host}}/api/students?department=Computer%20Engineering
+
+### 4. Get one student by id
+GET {{host}}/api/students/1
+
+### 5. Create a student (201 Created)
+POST {{host}}/api/students
+Content-Type: application/json
+
+{
+  "enrollmentNo": "92400136005",
+  "fullName": "Karan Singh",
+  "email": "karan.singh@example.com",
+  "department": "Computer Engineering",
+  "semester": 4
+}
+
+### 6. Invalid data (400 Bad Request)
+POST {{host}}/api/students
+Content-Type: application/json
+
+{
+  "enrollmentNo": "123",
+  "fullName": "Ka",
+  "email": "not-an-email",
+  "department": "",
+  "semester": 12
+}
+
+### 7. Duplicate enrollment number (409 Conflict)
+POST {{host}}/api/students
+Content-Type: application/json
+
+{
+  "enrollmentNo": "92400133001",
+  "fullName": "Duplicate Student",
+  "email": "duplicate@example.com",
+  "department": "Computer Engineering",
+  "semester": 2
+}
+
+### 8. Update a student (200 OK)
+PUT {{host}}/api/students/1
+Content-Type: application/json
+
+{
+  "enrollmentNo": "92400133001",
+  "fullName": "Aarav Mehta",
+  "email": "aarav.mehta@example.com",
+  "department": "Computer Engineering",
+  "semester": 6
+}
+
+### 9. Delete a student (204 No Content)
+DELETE {{host}}/api/students/3
+
+### 10. Student that does not exist (404 Not Found)
+GET {{host}}/api/students/99
+
+### 11. Exception middleware demo (500 Internal Server Error)
+GET {{host}}/api/students/test-error
